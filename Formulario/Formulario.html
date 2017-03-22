@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+
+#bigdiv{
+	width: 700px ;
+	margin-left: auto ;
+ 	margin-right: auto ;
+ 	font-family: helvetica;
+ 	color: #9366ff; 
+}
+h1{
+	text-align: center;
+}
+
+#leftdiv{
+	width:30%;
+	height:100%;
+	text-align: right;
+	float:left;
+	line-height: 170%;
+
+}
+
+form{
+	margin-left: 10px;
+	width:95%;
+}
+input, select{
+	margin:3.1px;
+}
+
+#centerdiv{
+	width:40%;
+	float:left;
+}
+#nombre, #direccion{
+	width:250px;
+}
+
+#edad{
+width:18px;
+}
+#cod_postal{
+	width:40px;
+}
+#dni_letra{
+	width:12px;
+}
+#tel_contacto{
+	width:90px;
+}
+#email, #rep_email{
+	width:120px;
+}
+#password, #rep_password{
+	width:90px;
+}
+
+#rightdiv{
+	width:30%;
+	float:left;
+}
+
+span{
+	color: red;
+}
+
+#rightdiv br{
+	line-height:27px;
+}
+
+input {
+    border: 1px solid;
+    border-radius: 4px;
+    border-color: #979797;
+	
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="bigdiv">
+<h1>Información de contacto</h1>
+<div id="leftdiv">
+Nombre*<br>
+Edad<br>
+Fecha de nacimiento<br>
+DNI/NIE:<br>
+Dirección*<br>
+Selecciona Provincia<br>
+Localidad<br>
+Código Postal*<br>
+Teléfono de contacto<br>
+Correo electrónico<br>
+Repita su correo electrónico<br>
+Contraseña:<br>
+Repita su contraseña:<br>
+</div>
+<div id="centerdiv">
+<form method="POST" id = "form" onsubmit="return comprueba()" action="www.pornhub.com">
+<input type="textbox" id="nombre"><br>
+<input type="textbox" id="edad"><br>
+<input type="textbox" id="fechanacimiento"><br>
+<input type="textbox" id="dni">-<input type="textbox" id="dni_letra"><br>
+<input type="textbox" id="direccion"><br>
+<select id="provincia"></select><br>
+<select id="localidad"></select><br>
+<input type="textbox" id="cod_postal"><br>
+<input type="textbox" id="telefono"><br>
+<input type="textbox" id="email"><br>
+<input type="textbox" id="remail"><br>
+<input type="password" id="password"><br>
+<input type="password" id="rpassword"><br><br>
+(*)Datos obligatorios<br><br>
+<input type="submit" id="submit" value="Enviar">
+<input type="reset" value="Borrar">
+</form>
+</div>
+<div id="rightdiv">
+<span id ="pnombre"></span><br>
+<span id="pedad"></span><br>
+<span id="pfechanacimiento"></span><br>
+<span id="pdni"></span><br>
+<span id="pdireccion"></span><br>
+<span id="pprovincia"></span><br>
+<span id="plocalidad"></span><br>
+<span id="pcod_postal"></span><br>
+<span id="ptelefono"></span><br>
+<span id="pemail"></span><br>
+<span id="premail"></span><br>
+<span id="ppassword"></span><br>
+<span id="prpassword"></span><br>
+</div>
+
+</div>
+<script type="text/javascript">
+//PROVINCIAS Y SUS POBLACIONES
+
+	var pobAlicante = "SELECCIONAR POBLACIÓN^ALACANT^ALBATERA^ALCOI^ALFÁS DEL PÍ^ALMORADI^ASPE^ALTEA^BANYERES DE MARIOLA^BENIDORM^BENISSA^CALLOSA D'EN SARRIÀ^CALLOSA DEL SEGURA^CALP^CASTALLA^COCENTAINA^COX^CREVILLENT^DÉNIA^DOLORES^EL CAMPELLO^ELDA^ELX^FINESTRAT^GUARDAMAR^IBI^JIJONA/XIXONA^LA NUCIA^LA VILA JOIOSA^MONOVAR^MONFORTE DEL CID^MURO DE ALCOY^MUTXAMEL^NOVELDA^ONIL^ORIHUELA^PEGO^PETRER^PILAR DE LA HORADADA^PINOSO^ROJALES^SAN JUAN DE ALICANTE^SANT VICENT DEL RASPEIG^SANTA POLA^SAX^TEULADA^TORREVIEJA^VILLENA^XÀBIA";
+
+	var pobCastellon = "SELECCIONAR POBLACIÓN^ALCALÀ DE XIVERT^ALCORA^ALMASSORA^ALMENARA^BENICARLÓ^BENICASSIM^BETXÍ^BURRIANA^CASTELLÓ DE LA PLANA^LA VALL D´UIXÓ^NULES^ONDA^OROPESA DEL MAR^PEÑÍSCOLA^SEGORBE^TORREBLANCA^VILA-REAL^VINARÒS";
+
+	var pobValencia =
+	"SELECCIONAR POBLACIÓN^ALAQUÀS^ALBAL^ALBERIC^ALBORAYA^ALCÀSSER^ALDAIA^ALFAFAR^ALGEMESÍ^ALGINET^ALMÀSSERA^ALMUSSAFES^ALZIRA^BENAGUASIL^" +
+	"BENETÚSSER^BENIFAIÒ^BENIMAMET^BENIPARRELL^BETERA^BOCAIRENT^BONREPÒS I MIRAMBELL^BUÑOL^" +
+	"BURJASSOT^CANALS^CANET D'ENBERENGUER^CARCAIXENT^CARLET^CATARROJA^CHIVA^CULLERA^GANDIA^GODELLA^L'ALCÚDIA^L'ELIANA^L'OLLERIA^LLÍRIA^MANISES^MASSAMAGRELL^MASSANASSA^MELIANA^MISLATA^MONCADA^" +
+	"OLIVA^ONTINYENT^PAIPORTA^PATERNA^PICANYA^PICASSENT^POBLA DE VALLBONA^PUÇOL^PUIG^QUART DE POBLET^REQUENA^RIBA ROJA DETURIA^SAGUNT^SEDAVÍ^SILLA^" +
+	"SUECA^TAVERNES BLANQUES^TAVERNES DE VALLDIGNA^TORRENT^UTIEL^VALENCIA^VALLADA^VILLANUEVA DE CASTELLÓN^XÀTIVA^XIRIVELLA";
+	pobValencia = pobValencia.split("^");
+	pobAlicante = pobAlicante.split("^")
+	pobCastellon = pobCastellon.split("^")
+
+	//CREAMOS SELECT DE LAS POBLACIONES
+	var localidades = document.getElementById("localidad");
+	localidades.disabled = true;
+
+	//CREAMOS LAS OPTIONS DE LAS POBLACIONES
+	var opValencia = new Array();
+	var opAlicante = new Array();
+	var opCastellon = new Array();
+	var txtValencia = new Array();
+	var txtAlicante = new Array();
+	var txtCastellon = new Array();
+
+	for (var i=0;i<pobValencia.length;i++){
+		opValencia[i] = document.createElement("option");
+		txtValencia[i] = document.createTextNode(pobValencia[i]);
+		opValencia[i].appendChild(txtValencia[i]);	
+	}
+		for (var i=0;i<pobAlicante.length;i++){
+		opAlicante[i] = document.createElement("option");
+		txtAlicante[i] = document.createTextNode(pobAlicante[i]);
+		opAlicante[i].appendChild(txtAlicante[i]);
+		
+	}
+		for (var i=0;i<pobCastellon.length;i++){
+		opCastellon[i] = document.createElement("option");
+		txtCastellon[i] = document.createTextNode(pobCastellon[i]);
+		opCastellon[i].appendChild(txtCastellon[i]);	
+	}
+
+	var ciudades = document.getElementById("provincia");
+	var provincias = ["SELECCIONAR PROVINCIA","VALENCIA","CASTELLÓN DE LA PLANA","ALICANTE"]
+
+	var provincia = new Array();
+	var txtprov = new Array();
+	//AÑADIMOS LAS PROVINCIAS A LAS OPCIONES
+	for(var i=0;i<provincias.length;i++){
+	provincia[i] = document.createElement("option");
+	txtprov[i] = document.createTextNode(provincias[i]);
+	provincia[i].appendChild(txtprov[i]);
+	//AÑADIMOS LAS PROVINCIAS AL SELECT
+	ciudades.appendChild(provincia[i]);
+	}
+
+	//CREAMOS FUNCION PARA ELEGIR PROVINCIA
+	ciudades.addEventListener("change", pobla,false);
+
+	function pobla(e){
+
+		switch (this.value){
+			case "VALENCIA":
+				localidades.disabled = false;
+				while(localidades.firstChild){
+					localidades.remove(localidades.firstChild);
+				}
+				for (var i=0;i<opValencia.length;i++){
+				localidades.appendChild(opValencia[i]);
+				}
+				this.style.borderColor = "#979797";
+				localidades.style.borderColor = "#979797";
+				break;
+			case "CASTELLÓN DE LA PLANA":
+			localidades.disabled = false;
+				while(localidades.firstChild){
+				localidades.remove(localidades.firstChild);
+				}			
+			for (var i=0;i<opCastellon.length;i++){
+				localidades.appendChild(opCastellon[i]);
+				}
+				this.style.borderColor = "#979797";
+				localidades.style.borderColor = "#979797";
+				break;
+			case "ALICANTE":
+				localidades.disabled = false;
+				while(localidades.firstChild){
+				localidades.remove(localidades.firstChild);
+				}	
+			for (var i=0;i<opAlicante.length;i++){
+				localidades.appendChild(opAlicante[i]);
+				}
+				this.style.borderColor = "#979797";
+				localidades.style.borderColor = "#979797";
+		}
+
+	}
+
+	
+	var form = document.forms[0];
+
+	//ESCUCHA PARA EL NOMBRE
+	form.elements[0].addEventListener("blur", nom ,false);
+
+	function nom(){
+		if (this.value.length<1){
+			document.getElementsByTagName("span")[0].innerHTML = "Introduce tu nombre";
+			this.style.borderColor = "red";
+		}else{
+		document.getElementsByTagName("span")[0].innerHTML = "";
+		this.style.borderColor = "#979797";
+		}
+
+	}
+
+	//ESCUCHA PARA LA DIRECCIÓN
+	document.getElementById("direccion").addEventListener("blur", dir,false);
+
+	//FUNCION PARA LA DIRECCIÓN
+	function dir(){
+		if (this.value.length<7){
+			document.getElementById("pdireccion").innerHTML = "Introduce una dirección válida";
+			this.style.borderColor = "red";
+		}else{
+			document.getElementById("pdireccion").innerHTML = "";
+			this.style.borderColor = "#979797";
+		}
+	}
+
+	//ESCUCHA PARA EL CODIGO POSTAL
+	document.getElementById("cod_postal").addEventListener("blur", cod, false);
+
+
+	//FUNCION PARA EL CODIGO POSTAL
+	function cod(){
+				if (this.value.length!=5){
+			document.getElementById("pcod_postal").innerHTML = "Introduce un código postal válido";
+			this.style.borderColor = "red";
+		}else{
+		document.getElementById("pcod_postal").innerHTML = "";
+		this.style.borderColor = "#979797";
+		}
+		
+	}
+
+	//ESCUCHA PARA LOS INPUT
+	var inputs = document.getElementsByTagName("input");
+	for(var i=0;i<inputs.length;i++){
+		if(i != 0 && i!= 4&& i!= 5){
+	inputs[i].addEventListener("focus", inputfocus,false);
+	inputs[i].addEventListener("blur", inputblur,false);
+		}
+	}
+
+	//FUNCIONES PARA CAMBIAR COLOR DE LOS BORDES
+	function inputfocus(){
+		this.style.borderColor = "#7E0EBF";
+	}
+		function inputblur(){
+		this.style.borderColor = "#979797";
+	}
+
+
+	//ESCUCHA PARA COMPROBAR QUE LOS CORREOS SEAN IGUALES
+	var email = document.getElementById("email");
+	var remail = document.getElementById("remail");
+
+	remail.addEventListener("blur",email,false);
+
+	function email(){
+		if(email != remail){
+			email.borderColor="red";
+			remail.borderColor="red";
+			document.getElementById("pemail").innerHTML = "Los correos no coinciden";
+		}else{
+			email.style.borderColor = "#979797";
+			remail.style.borderColor = "#979797";
+		}
+	}
+
+
+	function comprueba(){
+		
+		var correcto = true;
+		var edad = document.getElementById("edad");
+		var dni = document.getElementById("dni");
+		var dni_letra = document.getElementById("dni_letra");
+		var telefono = document.getElementById("telefono");
+		var email = document.getElementById("email");
+		var remail = document.getElementById("remail");
+		var password = document.getElementById("password");
+		var rpassword = document.getElementById("rpassword");
+		var fechanacimiento = document.getElementById("fechanacimiento");
+		//COMPROBACIONES
+
+		//EDAD
+		var regEdad = /^[1-9][0-9]?$/;
+		if(regEdad.test(edad.value) == false){
+			correcto = false;
+			document.getElementById("pedad").innerHTML = "Introduce una edad válida";
+			edad.style.borderColor="red";
+		}
+
+		//FECHA DE NACIMIENTO
+		var regFecha = /^[0-3]?[0-9]\-[0-1]?[1-2]\-[1-9]{4}$/;
+		if (regFecha.test(fechanacimiento.value) == false){
+			correcto = false;
+			document.getElementById("pfechanacimiento").innerHTML = "Introduce una fecha de nacimiento válida";
+			correcto = false;
+			fechanacimiento.style.borderColor = "red";
+			}
+
+		//DNI
+		var regDni = /^[a-zA-Z]?\d{7}$|^\d{8}$/;
+		var regDni_letra = /^[a-zA-Z]{1}$/;
+
+		if(regDni.test(dni.value) == false || regDni_letra.test(dni_letra.value) == false){
+			correcto = false;
+			document.getElementById("pdni").innerHTML = "Introduce un DNI válido";
+			dni.style.borderColor="red";
+			dni_letra.style.borderColor="red";
+		}
+
+		//TELEFONO
+		var regTelefono = /^\+\d{10,13}$|^00\d{10,13}$|^6\d{8}$|^9\d{8}$/;
+		
+		if(regTelefono.test(telefono.value) == false){
+			correcto = false;
+			document.getElementById("ptelefono").innerHTML = "Introduce un teléfono válido";
+			telefono.style.borderColor="red";
+		}
+
+		//EMAIL
+
+		var regMail = /\w+\.?\@\w+\.[a-zA-Z]/;
+		if (regMail.test(email.value) == false){
+			correcto=false;
+			document.getElementById("pemail").innerHTML = "Introduce un correo electrónico válido";
+			email.style.borderColor="red";
+			remail.style.borderColor="red";
+		}else if (email.value !== remail.value){
+			correcto=false;
+			document.getElementById("pemail").innerHTML = "Los correos electrónico no coinciden";
+			email.style.borderColor="red";
+			remail.style.borderColor="red";
+		}
+
+		//CONTRASEÑA
+
+		var regPassword = /.{6,30}/;
+
+		if(regPassword.test(password.value) == false || password.value !==rpassword.value){
+			correcto =false;
+			document.getElementById("ppassword").innerHTML = "Introduce una contraseña válida";
+			password.style.borderColor="red";
+			rpassword.style.borderColor="red";
+		}
+		
+		//LOCALIDAD Y POBLACION
+
+		if(localidades.value == "SELECCIONAR POBLACIÓN" || ciudades.value == "SELECCIONAR PROVINCIA"){
+			correcto = false;
+			document.getElementById("plocalidad").innerHTML = "Introduce una provincia y población ";
+			localidades.style.borderColor="red";
+			ciudades.style.borderColor="red";
+			ciudades.disabled = false;
+		}
+
+		console.log(correcto);
+
+			return correcto;
+
+
+	}
+
+//border-color: #4685B6;
+</script>
+</body>
+</html>
