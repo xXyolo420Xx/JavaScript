@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+	var contador = new Object;
+		contador.time = 0;
+
+		contador.tick= function(){
+		contador.time +=1;
+	}
+
+	contador.getTime = function(){
+		var segundos = contador.time/100;
+		var min = 0;
+		while(segundos/60>1){
+			min+=1;
+			segundos-=60;
+		}
+		return [min, segundos];
+	}
+
+	contador.reset = function(){
+		contador.time = 0;
+	}
+	
+
+
+
+	setInterval(contador.tick, 1);
+
+	//Boton para empezar el juego
+	var start = document.createElement("input");
+	document.body.appendChild(start);
+	start.type = "button";
+	start.value = "Reiniciar";
+	start.id = "startbtn";
+	start.addEventListener("click",empezar,false);
+	empezar();
+
+
+	function empezar(){
+		contador.reset();
+		var rnd = new Array();
+
+		for (var i=0;i<16;i++){
+			rnd[i] = i+1;
+		}
+
+		var rnd2=new Array();
+
+		for(var i=0;i<16;i++){
+			var random = Math.floor(Math.random()*rnd.length);
+			rnd2.push(rnd[random]);
+			rnd.splice(random, 1);
+		}
+		
+			vamos(rnd2);
+	}
+
+
+function vamos(rnd){
+	//borramos las anteriores tablas
+	var tabla = document.getElementsByTagName("table")[0];
+	if(tabla){
+		tabla.parentNode.removeChild(tabla);
+	}
+
+
+	//Borramos las imagenes anteriores
+	var img = document.getElementsByTagName("img");
+	while(img[img.length]){
+		img[img.length].parentNode.removeChild(img[img.length]);
+	}
+	//Creamos tabla
+	var tabla = document.createElement("table");
+	tabla.border = "1px solid";
+	document.body.appendChild(tabla);
+	tabla.backgroundColor = "#E5CCFF";
+	
+	//Creamos imagenes
+	var img = new Array();
+
+	for (var i=0;i<16;i++){
+		img[i] = document.createElement("img");
+		img[i].src = "img/"+rnd[i]+".gif";
+		img[i].id = rnd[i];
+	}
+		var number = /\d+/;
+
+		var contimg = 0;
+		for(var i=0;i<4;i++){
+		tabla.insertRow(i);
+		for (var j=0;j<4;j++){
+			tabla.rows[i].insertCell(j);
+			tabla.rows[i].cells[j].appendChild(img[contimg]);
+			tabla.rows[i].cells[j].setAttribute("kek", number.exec(img[contimg].getAttribute("src")));
+			contimg++;
+		}
+	}
+
+		var tds = document.getElementsByTagName("td");
+		for (i=0;i<tds.length;i++){
+			tds[i].style.border = "solid 5px #DFDEEE";
+			tds[i].addEventListener("mouseover", function(){this.style.border = "solid 5px #BAB7EC";}, false);
+			tds[i].addEventListener("mouseout", function(){this.style.border = "solid 5px #DFDEEE";}, false);
+		}
+		mover();
+
+
+}
+
+
+function mover(){
+
+	var blancos = document.getElementsByTagName("img");
+	for (var i=0;i<blancos.length;i++){
+		if (blancos[i].getAttribute("src") == "img/16.gif"){
+		var cell = blancos[i].parentNode.cellIndex;
+		var row = blancos[i].parentNode.parentNode.rowIndex;
+		break;
+		}
+	}
+
+
+
+	cellizq = cell-1;
+	cellder = cell+1;
+	rowtop = row-1;
+	rowbot = row+1; 
+
+	var tabla = document.getElementsByTagName("table")[0];
+
+
+
+		if(cellizq>-1){
+			tabla.rows[row].cells[cellizq].addEventListener("click", cambia,false);
+		}
+
+		if(cellder<4){
+			tabla.rows[row].cells[cellder].addEventListener("click", cambia,false);
+		}
+
+		if (rowtop>-1){
+			tabla.rows[rowtop].cells[cell].addEventListener("click", cambia,false);
+		}
+		if (rowbot<4){
+			tabla.rows[rowbot].cells[cell].addEventListener("click", cambia,false);
+		}
+
+}
+
+
+function cambia(){
+	
+
+	var tabla = document.getElementsByTagName("table")[0];
+	var tds = document.getElementsByTagName("td");
+	var blancos = document.getElementsByTagName("img");
+	for (var i=0;i<blancos.length;i++){
+		if (blancos[i].getAttribute("src") == "img/16.gif"){
+			var blancoimg = blancos[i];
+		break;
+		}
+	}
+
+
+	var kek = this.getAttribute("kek");
+	var imgnum = blancoimg.getAttribute("id");
+
+	blancoimg.setAttribute("id", kek);
+	blancoimg.setAttribute("src","img/"+kek+".gif");
+	blancoimg.parentNode.setAttribute("kek", kek);
+
+	this.setAttribute("kek", imgnum);
+	this.firstChild.setAttribute("id", imgnum);
+	this.firstChild.setAttribute("src","img/"+imgnum+".gif");
+
+
+	//BORRAMOS LOS LISTENERS PARA NO PODER HACER TRAMPA
+	for(i=0;i<4;i++){
+			tabla.rows[i];
+			for(j=0;j<4;j++){
+				tabla.rows[i].cells[j].removeEventListener("click", cambia,false);
+			}
+		}
+
+	//COMPROBAMOS SI EL PUZZLE ESTA SOLUCIONADO
+
+	var win = true;
+
+	for(var i=0;i<tds.length;i++){
+		var kawl = tds[i].getAttribute("kek");
+		if(kawl != (i+1)){
+			win = false;
+		}
+	} 
+
+	if (win == false){
+		mover();
+	}else{
+		var tarda = contador.getTime();
+		alert("Ganaste, has tardado "+tarda[0]+" minutos y "+ tarda[1]+" segundos!");
+	}
+}
+
+
+
+</script>
+</body>
+</html>
